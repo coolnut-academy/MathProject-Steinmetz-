@@ -33,6 +33,11 @@
   background: #eaf2fb;
 }
 
+.status-numerically-verified {
+  color: #2f6f67;
+  background: #e8f4f1;
+}
+
 .status-legend dl {
   display: grid;
   gap: 0.75rem;
@@ -61,6 +66,60 @@
 .utility-card h2 {
   font-size: 1rem;
   margin-top: 0;
+}
+
+.search-card form {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.search-card input {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.45rem 0.55rem;
+  width: 100%;
+}
+
+.search-results {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0.8rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.search-results li {
+  border-top: 1px solid var(--border);
+  padding-top: 0.6rem;
+}
+
+.search-results a {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.search-results span,
+.search-results small,
+.search-results p {
+  color: var(--muted);
+}
+
+.search-results p {
+  margin: 0.25rem 0 0;
+}
+
+.print-actions {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.is-search-target {
+  outline: 3px solid var(--warn);
+  outline-offset: 4px;
+  scroll-margin-top: 150px;
+}
+
+#print-root {
+  display: none;
 }
 
 .fallback-dialog {

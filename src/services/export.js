@@ -28,10 +28,16 @@ export function serializeBlock(block) {
         .join("\n");
     case "ordered-list":
       return (block.items ?? []).map((item, index) => `${index + 1}. ${item}`).join("\n");
+    case "table":
+      return serializeTable(block);
+    case "code":
+      return ["```" + (block.language ?? ""), block.code ?? "", "```"].join("\n");
     case "link-list":
       return (block.links ?? []).map((link) => `${link.label}: ${link.href}`).join("\n");
     case "status-legend":
       return "Status legend: needs-review, placeholder, draft, verified-proof";
+    case "bibliography-list":
+      return serializeBibliography(block);
     case "simulation":
       return `${block.title ?? block.id}\nSimulation scaffold. Numerical output is not a proof.`;
     default:
@@ -59,4 +65,31 @@ function serializeContainer(block) {
   ].filter(Boolean);
   const childText = (block.content ?? []).map(serializeBlock).filter(Boolean);
   return [...header, ...childText].join("\n");
+}
+
+function serializeBibliography(block) {
+  if (!block.references?.length) {
+    return [
+      block.title ?? "Bibliography",
+      block.audit?.summary ?? "No verified bibliography entries have been imported.",
+      "No verified references available."
+    ].join("\n");
+  }
+  return (block.references ?? [])
+    .map((reference) => `${reference.formatted ?? reference.title ?? reference.id}\nStatus: ${reference.status ?? "needs-review"}`)
+    .join("\n\n");
+}
+
+function serializeTable(block) {
+  const headers = block.headers ?? [];
+  const rows = block.rows ?? [];
+  if (!headers.length) {
+    return rows.map((row) => row.join(" | ")).join("\n");
+  }
+
+  return [
+    `| ${headers.join(" | ")} |`,
+    `| ${headers.map(() => "---").join(" | ")} |`,
+    ...rows.map((row) => `| ${row.join(" | ")} |`)
+  ].join("\n");
 }

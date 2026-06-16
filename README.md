@@ -1,12 +1,12 @@
 # Steinmetz Solid Mathematical Report
 
-Static single-page prototype for a mathematical report workspace about Steinmetz solids. The app keeps one public HTML entry point, stores equations as LaTeX source, renders them with MathJax, and provides copy/export workflows for transfer into Microsoft Word.
+Static single-page mathematical report workspace about Steinmetz solids. The app keeps one public HTML entry point, stores equations as LaTeX source, renders them with MathJax, and provides copy/export workflows for transfer into Microsoft Word.
 
 ## Current Status
 
-This is a first-milestone prototype. It includes the application shell, routing, academic layout, structured content renderer, MathJax pipeline, source-aware copy/export controls, validation scripts, and a simulation scaffold. It is not the complete report.
+This is an in-progress report workspace. It includes the application shell, routing, academic layout, structured content renderer, MathJax pipeline, source-aware copy/export controls, search, print-source modes, validation scripts, a complete imported Chapter 3 source module, and interactive 2D/3D/numerical simulation tools. It is not the complete report.
 
-The reviewed Chapter 3 source file `03_Steinmetz_Chapter3_Full_Proof.md` was not present during implementation. Chapter 3 content is therefore a structured prototype using formulas supplied in the planning documents and clearly marked placeholders for unavailable proof content.
+The reviewed Chapter 3 source file `03_Steinmetz_Chapter3_Full_Proof.md` is present at the repository root and has been imported into `src/content/chapter3.js`. Chapters 1, 2, 4, 5, abstracts, bibliography, and appendices remain placeholders until reviewed source material is supplied.
 
 ## Run Locally
 
@@ -20,15 +20,13 @@ Then open:
 http://localhost:4173/
 ```
 
-The `package.json` scripts are also provided:
+The `package.json` scripts are:
 
 ```powershell
 npm run dev
 npm run test
 npm run build
 ```
-
-In this workspace, direct `npm` execution was blocked by a local permission issue outside the repository, so the Node scripts can be run directly.
 
 ## Validation
 
@@ -65,4 +63,4 @@ Important block fields:
 
 ## Next Phase
 
-Add the reviewed `03_Steinmetz_Chapter3_Full_Proof.md`, then import Chapter 3 section by section while preserving proof order, equations, assumptions, and source traceability.
+Phase 12A is Chapter 1 expansion. Do not generate Chapter 1 prose from the plan alone. Add a reviewed Chapter 1 source document first, then import it section by section while preserving source order, assumptions, scope, objectives, and citation status.

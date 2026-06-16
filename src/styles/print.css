@@ -37,4 +37,28 @@
     background: white;
     border-top: 1px solid #999;
   }
+
+  #print-root {
+    display: none;
+  }
+
+  body[data-print-mode="full"] #app {
+    display: none;
+  }
+
+  body[data-print-mode="full"] #print-root {
+    display: block;
+    white-space: pre-wrap;
+  }
+
+  #print-root pre {
+    font-family: "Times New Roman", serif;
+    font-size: 11pt;
+    line-height: 1.45;
+    white-space: pre-wrap;
+  }
+
+  #print-root article {
+    break-after: page;
+  }
 }

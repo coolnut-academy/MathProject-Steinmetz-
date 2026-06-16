@@ -53,6 +53,10 @@
     grid-template-columns: 1fr;
   }
 
+  .simulation-panels {
+    grid-template-columns: 1fr;
+  }
+
   .status-legend dl > div {
     grid-template-columns: 1fr;
   }

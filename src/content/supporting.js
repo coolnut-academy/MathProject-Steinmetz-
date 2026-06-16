@@ -1,3 +1,5 @@
+import { bibliographyAudit, references } from "./references.js";
+
 export const bibliographyRoute = {
   id: "bibliography",
   label: "บรรณานุกรม",
@@ -7,6 +9,14 @@ export const bibliographyRoute = {
   status: "placeholder",
   source: "plan (1).md section 14",
   blocks: [
+    {
+      id: "bibliography-audit",
+      type: "bibliography-list",
+      status: bibliographyAudit.status,
+      title: "Bibliography verification audit",
+      references,
+      audit: bibliographyAudit
+    },
     {
       id: "bibliography-placeholder",
       type: "placeholder",
@@ -86,7 +96,7 @@ export const simulationRoute = {
       id: "simulation-cross-section",
       type: "simulation",
       status: "draft",
-      title: "2D cross-section scaffold"
+      title: "2D cross-section explorer"
     }
   ]
 };

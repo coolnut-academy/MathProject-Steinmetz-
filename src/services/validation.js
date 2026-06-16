@@ -1,7 +1,8 @@
-export function validateRoutes(routes) {
+export function validateRoutes(routes, options = {}) {
   const errors = [];
   const ids = new Map();
   const equationNumbers = new Map();
+  const referenceIds = new Set((options.references ?? []).map((reference) => reference.id));
 
   for (const route of routes) {
     visitRoute(route, (block) => {
@@ -38,13 +39,35 @@ export function validateRoutes(routes) {
       if (block.proves && !ids.has(block.proves)) {
         errors.push(`Proof ${block.id} references missing theorem ${block.proves}`);
       }
+      if (block.proofId && !ids.has(block.proofId)) {
+        errors.push(`Block ${block.id} references missing proof ${block.proofId}`);
+      }
+      for (const ref of block.equationRefs ?? []) {
+        if (!ids.has(ref.id)) {
+          errors.push(`Block ${block.id} references missing equation ${ref.id}`);
+        }
+      }
+      for (const citationId of block.citationIds ?? []) {
+        if (!referenceIds.has(citationId)) {
+          errors.push(`Block ${block.id} references missing citation ${citationId}`);
+        }
+      }
+      for (const reference of block.references ?? []) {
+        if (!reference.id) {
+          errors.push(`Bibliography entry without ID in ${block.id}`);
+        }
+        if (reference.status === "placeholder" && reference.final === true) {
+          errors.push(`Placeholder reference ${reference.id} cannot be marked final`);
+        }
+      }
     });
   }
 
   return {
     ok: errors.length === 0,
     errors,
-    ids: [...ids.keys()]
+    ids: [...ids.keys()],
+    references: [...referenceIds]
   };
 }
 

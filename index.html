@@ -44,7 +44,7 @@
           <button class="icon-button" type="button" data-print aria-label="Print current view">Print</button>
         </div>
       </header>
-      <nav class="main-nav" aria-label="Main report tabs" id="main-nav"></nav>
+      <nav class="main-nav" aria-label="Main report tabs" id="main-nav" role="tablist"></nav>
       <div class="workspace">
         <aside class="toc-panel" aria-label="Local table of contents">
           <div class="toc-panel__header">
@@ -55,6 +55,23 @@
         </aside>
         <main id="main-content" class="content-pane" tabindex="-1"></main>
         <aside class="utility-rail" aria-label="Utilities">
+          <section class="utility-card search-card" data-search-root>
+            <h2>Search source</h2>
+            <form data-search-form>
+              <label for="site-search">Search report source</label>
+              <input id="site-search" type="search" data-search-input autocomplete="off" />
+              <button type="submit">Open first result</button>
+            </form>
+            <div data-search-results aria-live="polite"></div>
+          </section>
+          <section class="utility-card" data-print-tools>
+            <h2>Print</h2>
+            <div class="print-actions">
+              <button type="button" data-print-mode="current">Current view</button>
+              <button type="button" data-print-mode="route">Current source</button>
+              <button type="button" data-print-mode="full">Full source</button>
+            </div>
+          </section>
           <section class="utility-card">
             <h2>Word transfer</h2>
             <ol>

@@ -5,15 +5,19 @@ import { initPreferences } from "./app/preferences.js";
 import { renderRoute } from "./renderers/reportRenderer.js";
 import { typesetMath } from "./renderers/mathRenderer.js";
 import { setCopyStatus } from "./services/clipboard.js";
+import { initPrintTools } from "./services/print.js";
+import { initSearch } from "./services/search.js";
 
 const elements = {
   nav: document.querySelector("#main-nav"),
   main: document.querySelector("#main-content"),
   toc: document.querySelector("#local-toc"),
-  tocPanel: document.querySelector(".toc-panel")
+  tocPanel: document.querySelector(".toc-panel"),
+  searchRoot: document.querySelector("[data-search-root]"),
+  printTools: document.querySelector("[data-print-tools]")
 };
 
-let simulationStarted = false;
+let currentRoute = getDefaultRoute();
 
 function openMobileToc(open) {
   elements.tocPanel?.classList.toggle("is-open", open);
@@ -23,8 +27,7 @@ async function afterRender(route) {
   await typesetMath(elements.main);
   elements.main.focus({ preventScroll: true });
 
-  if (route.id === "simulation" && !simulationStarted) {
-    simulationStarted = true;
+  if (route.id === "simulation") {
     const module = await import("./simulation/simulationController.js");
     module.initSimulation(document.querySelector("[data-simulation-root]"));
   }
@@ -32,10 +35,12 @@ async function afterRender(route) {
 
 async function handleRouteChange(routeState) {
   const route = getRouteById(routeState.routeId) ?? getDefaultRoute();
+  currentRoute = route;
   renderMainNavigation(elements.nav, routes, route.id);
   renderRoute(elements.main, elements.toc, route, routeState.anchorId);
   openMobileToc(false);
   await afterRender(route);
+  highlightAnchor(routeState.anchorId);
 }
 
 renderMainNavigation(elements.nav, routes, getDefaultRoute().id);
@@ -46,6 +51,20 @@ const router = createRouter({
 });
 
 initPreferences();
+initSearch({
+  root: elements.searchRoot,
+  routes,
+  onNavigate(href) {
+    window.location.hash = href.replace(/^#/, "");
+  }
+});
+initPrintTools({
+  root: elements.printTools,
+  routes,
+  getCurrentRoute() {
+    return currentRoute;
+  }
+});
 router.start();
 
 document.addEventListener("click", (event) => {
@@ -55,6 +74,7 @@ document.addEventListener("click", (event) => {
   }
 
   if (event.target.closest("[data-print]")) {
+    document.body.dataset.printMode = "current";
     window.print();
   }
 });
@@ -62,3 +82,19 @@ document.addEventListener("click", (event) => {
 window.addEventListener("unhandledrejection", (event) => {
   setCopyStatus(`Error: ${event.reason?.message ?? "unknown application error"}`);
 });
+
+function highlightAnchor(anchorId) {
+  if (!anchorId) {
+    return;
+  }
+  queueMicrotask(() => {
+    const target = document.getElementById(anchorId);
+    if (!target) {
+      return;
+    }
+    target.classList.add("is-search-target");
+    target.setAttribute("tabindex", "-1");
+    target.focus({ preventScroll: true });
+    window.setTimeout(() => target.classList.remove("is-search-target"), 2600);
+  });
+}

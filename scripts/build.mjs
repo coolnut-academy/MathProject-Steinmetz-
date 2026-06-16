@@ -2,12 +2,13 @@ import { cp, mkdir, rm, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { routes } from "../src/content/index.js";
+import { references } from "../src/content/references.js";
 import { validateRoutes } from "../src/services/validation.js";
 
 const root = resolve(process.cwd());
 const dist = join(root, "dist");
 
-const validation = validateRoutes(routes);
+const validation = validateRoutes(routes, { references });
 if (!validation.ok) {
   console.error(validation.errors.join("\n"));
   process.exit(1);

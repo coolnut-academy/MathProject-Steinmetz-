@@ -32,10 +32,16 @@ export function renderBlock(block) {
       return renderEquation(block);
     case "ordered-list":
       return renderOrderedList(block);
+    case "table":
+      return renderTable(block);
+    case "code":
+      return renderCode(block);
     case "link-list":
       return renderLinkList(block);
     case "status-legend":
       return renderStatusLegend(block);
+    case "bibliography-list":
+      return renderBibliographyList(block);
     case "simulation":
       return renderSimulation(block);
     default:
@@ -60,7 +66,7 @@ function renderParagraph(block) {
   const p = document.createElement("p");
   p.id = block.id;
   p.className = "report-paragraph";
-  p.textContent = block.text;
+  appendInlineText(p, block.text ?? "", block.equationRefs);
   return p;
 }
 
@@ -74,7 +80,7 @@ function renderCallout(block) {
   if (block.type === "proof") {
     const end = document.createElement("p");
     end.className = "proof-end";
-    end.textContent = block.status === "placeholder" ? "Proof pending from reviewed source." : "End of proof.";
+    end.textContent = block.status === "placeholder" ? "รอบทพิสูจน์จากต้นฉบับที่ผ่านการตรวจทาน" : "จบบทพิสูจน์";
     section.append(end);
   }
   return section;
@@ -87,10 +93,14 @@ function blockHeader(block, headingTag) {
   heading.textContent = getBlockTitle(block);
   const meta = document.createElement("div");
   meta.className = "block-meta";
+  const proofLink = block.proofId ? `<a href="#${routeHash()}/${block.proofId}">ไปยังบทพิสูจน์</a>` : "";
+  const provesLink = block.proves ? `<a href="#${routeHash()}/${block.proves}">กลับไปยังข้อความที่พิสูจน์</a>` : "";
   meta.innerHTML = `
     <span class="status-badge status-${block.status ?? "draft"}">${block.status ?? "draft"}</span>
     ${block.section ? `<span>Section ${block.section}</span>` : ""}
     ${block.source ? `<span>Source: ${block.source}</span>` : ""}
+    ${proofLink}
+    ${provesLink}
     <button type="button" data-copy-block="${block.id}">Copy source text</button>
   `;
   header.append(heading, meta);
@@ -153,12 +163,66 @@ function renderOrderedList(block) {
   const list = document.createElement("ol");
   list.id = block.id;
   list.className = "report-list";
+  if (block.start) {
+    list.start = block.start;
+  }
   for (const value of block.items ?? []) {
     const item = document.createElement("li");
-    item.textContent = value;
+    appendInlineText(item, value, block.equationRefs);
     list.append(item);
   }
   return list;
+}
+
+function renderTable(block) {
+  const wrapper = document.createElement("div");
+  wrapper.id = block.id;
+  wrapper.className = "table-scroll";
+
+  const table = document.createElement("table");
+  table.className = "report-table";
+  const thead = document.createElement("thead");
+  const headerRow = document.createElement("tr");
+  for (const header of block.headers ?? []) {
+    const cell = document.createElement("th");
+    appendInlineText(cell, header, block.equationRefs);
+    headerRow.append(cell);
+  }
+  thead.append(headerRow);
+
+  const tbody = document.createElement("tbody");
+  for (const row of block.rows ?? []) {
+    const tr = document.createElement("tr");
+    for (const value of row) {
+      const cell = document.createElement("td");
+      appendInlineText(cell, value, block.equationRefs);
+      tr.append(cell);
+    }
+    tbody.append(tr);
+  }
+
+  table.append(thead, tbody);
+  wrapper.append(table);
+  return wrapper;
+}
+
+function renderCode(block) {
+  const figure = document.createElement("figure");
+  figure.id = block.id;
+  figure.className = "code-block";
+
+  if (block.language) {
+    const caption = document.createElement("figcaption");
+    caption.textContent = block.language;
+    figure.append(caption);
+  }
+
+  const pre = document.createElement("pre");
+  const code = document.createElement("code");
+  code.textContent = block.code ?? "";
+  pre.append(code);
+  figure.append(pre);
+  return figure;
 }
 
 function renderLinkList(block) {
@@ -186,6 +250,41 @@ function renderStatusLegend(block) {
       <div><dt><span class="status-badge status-verified-proof">verified-proof</span></dt><dd>Reviewed analytical proof content, once imported.</dd></div>
     </dl>
   `;
+  return section;
+}
+
+function renderBibliographyList(block) {
+  const section = document.createElement("section");
+  section.id = block.id;
+  section.className = "content-block content-block--note bibliography-list";
+  section.dataset.status = block.status ?? "placeholder";
+  section.append(blockHeader(block, "h2"));
+
+  const audit = document.createElement("p");
+  audit.textContent = block.audit?.summary ?? "No bibliography audit summary available.";
+  section.append(audit);
+
+  if (!block.references?.length) {
+    const empty = document.createElement("p");
+    empty.className = "muted";
+    empty.textContent = "No verified references are available yet. This list intentionally remains empty.";
+    section.append(empty);
+    return section;
+  }
+
+  const list = document.createElement("ol");
+  list.className = "bibliography-items";
+  for (const reference of block.references) {
+    const item = document.createElement("li");
+    item.id = reference.id;
+    item.innerHTML = `
+      <span class="status-badge status-${reference.status ?? "needs-review"}">${reference.status ?? "needs-review"}</span>
+      <p>${reference.formatted ?? reference.title ?? reference.id}</p>
+      <button type="button" data-copy-reference="${reference.id}">Copy reference</button>
+    `;
+    list.append(item);
+  }
+  section.append(list);
   return section;
 }
 
@@ -219,7 +318,54 @@ function appendChildren(parent, children = []) {
   }
 }
 
+function appendInlineText(parent, text, refs = []) {
+  if (!refs?.length) {
+    parent.textContent = text;
+    return;
+  }
+
+  const refMap = new Map(refs.map((ref) => [ref.label, ref.id]));
+  const pattern = /\((3\.\d+)\)/g;
+  let cursor = 0;
+  for (const match of text.matchAll(pattern)) {
+    const [raw, label] = match;
+    const id = refMap.get(label);
+    if (!id) {
+      continue;
+    }
+    parent.append(document.createTextNode(text.slice(cursor, match.index)));
+    const link = document.createElement("a");
+    link.href = `#${routeHash()}/${id}`;
+    link.textContent = raw;
+    link.className = "equation-ref";
+    parent.append(link);
+    cursor = match.index + raw.length;
+  }
+  parent.append(document.createTextNode(text.slice(cursor)));
+}
+
+function routeHash() {
+  return location.hash.replace(/^#/, "").split("/")[0];
+}
+
 function labelFor(type) {
+  const labels = {
+    definition: "นิยาม",
+    assumption: "สมมติฐาน",
+    notation: "สัญลักษณ์",
+    lemma: "บทตั้ง",
+    proposition: "ข้อเสนอ",
+    theorem: "ทฤษฎีบท",
+    corollary: "บทแทรก",
+    proof: "บทพิสูจน์",
+    "numerical-check": "การตรวจสอบเชิงตัวเลข",
+    warning: "ข้อควรระวัง",
+    note: "หมายเหตุ",
+    placeholder: "พื้นที่รอเนื้อหา"
+  };
+  if (labels[type]) {
+    return labels[type];
+  }
   return type
     .split("-")
     .map((part) => part[0].toUpperCase() + part.slice(1))

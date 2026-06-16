@@ -17,40 +17,199 @@
   gap: 0.7rem;
 }
 
-.simulation-controls label {
+.simulation-controls label,
+.simulation-field {
   display: grid;
   gap: 0.25rem;
   font-weight: 700;
 }
 
 .simulation-controls input,
-.simulation-controls select {
+.simulation-controls select,
+.simulation-controls output {
   width: 100%;
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 0.45rem 0.55rem;
 }
 
+.simulation-controls output {
+  background: var(--panel-strong);
+  font-weight: 700;
+}
+
+.simulation-controls input[type="range"] {
+  padding: 0;
+  accent-color: var(--accent);
+}
+
+.simulation-toggles {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.7rem;
+}
+
+.simulation-toggles legend {
+  color: var(--muted);
+  font-weight: 700;
+  padding: 0 0.2rem;
+}
+
+.simulation-toggles label {
+  align-items: center;
+  display: flex;
+  font-weight: 600;
+  gap: 0.45rem;
+}
+
+.simulation-toggles input {
+  width: auto;
+}
+
+.simulation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.simulation-actions a {
+  font-weight: 700;
+}
+
+.simulation-errors {
+  color: var(--danger);
+}
+
+.simulation-errors ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
 .simulation-view {
+  display: grid;
+  gap: 1rem;
   min-width: 0;
 }
 
-.simulation-view canvas {
+.simulation-2d-panel,
+.simulation-3d-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  padding: 0.85rem;
+}
+
+.simulation-2d-panel h3,
+.simulation-3d-header h3 {
+  margin: 0;
+}
+
+.simulation-2d-panel canvas {
   width: 100%;
-  min-height: 300px;
+  min-height: 380px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: #fbfaf7;
+  margin-top: 0.8rem;
+}
+
+.simulation-3d-header {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.simulation-3d-root {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fbfaf7;
+  min-height: 380px;
+  overflow: hidden;
+}
+
+.simulation-3d-canvas {
+  height: min(52vh, 520px);
+  min-height: 380px;
+}
+
+.simulation-3d-canvas canvas {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.simulation-3d-status {
+  border-left: 3px solid var(--warn);
+  margin: 0.8rem 0 0;
+  padding-left: 0.8rem;
+}
+
+.simulation-3d-fallback {
+  padding: 1rem;
+}
+
+.simulation-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.8rem;
 }
 
 .simulation-summary {
-  margin-top: 0.8rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--panel-strong);
   padding: 0.85rem;
 }
 
-.simulation-summary h3 {
+.simulation-formula-panel,
+.simulation-numerical-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  padding: 0.85rem;
+}
+
+.simulation-summary h3,
+.simulation-formula-panel h3,
+.simulation-numerical-panel h3 {
   margin-top: 0;
+}
+
+.simulation-values {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.simulation-values > div {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.6fr) minmax(0, 1fr);
+  gap: 0.6rem;
+}
+
+.simulation-values dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.simulation-values dd {
+  margin: 0;
+}
+
+.simulation-equation {
+  overflow-x: auto;
+}
+
+.simulation-text-alt {
+  border-left: 3px solid var(--accent);
+  margin: 0.8rem 0 0;
+  padding-left: 0.8rem;
 }

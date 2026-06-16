@@ -94,6 +94,7 @@ function attachRouteActions(main, route) {
     const routeDownload = event.target.closest("[data-download-route]");
     const openToc = event.target.closest("[data-open-toc]");
     const copyBlock = event.target.closest("[data-copy-block]");
+    const copyReference = event.target.closest("[data-copy-reference]");
 
     if (routeCopy) {
       await copyText(serializeRoute(route), `Copied ${route.title}`);
@@ -111,10 +112,31 @@ function attachRouteActions(main, route) {
       }
     }
 
+    if (copyReference) {
+      const reference = findReferenceById(route.blocks, copyReference.dataset.copyReference);
+      if (reference) {
+        await copyText(reference.formatted ?? reference.title ?? reference.id, `Copied reference ${reference.id}`);
+      }
+    }
+
     if (openToc) {
       document.querySelector(".toc-panel")?.classList.add("is-open");
     }
   };
+}
+
+function findReferenceById(blocks = [], id) {
+  for (const block of blocks) {
+    const found = (block.references ?? []).find((reference) => reference.id === id);
+    if (found) {
+      return found;
+    }
+    const child = findReferenceById(block.content, id);
+    if (child) {
+      return child;
+    }
+  }
+  return null;
 }
 
 function findBlockById(blocks = [], id) {
