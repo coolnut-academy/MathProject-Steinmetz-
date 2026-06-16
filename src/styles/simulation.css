@@ -1,0 +1,56 @@
+.simulation-shell {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  padding: 1rem;
+}
+
+.simulation-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.simulation-controls {
+  display: grid;
+  align-content: start;
+  gap: 0.7rem;
+}
+
+.simulation-controls label {
+  display: grid;
+  gap: 0.25rem;
+  font-weight: 700;
+}
+
+.simulation-controls input,
+.simulation-controls select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.45rem 0.55rem;
+}
+
+.simulation-view {
+  min-width: 0;
+}
+
+.simulation-view canvas {
+  width: 100%;
+  min-height: 300px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fbfaf7;
+}
+
+.simulation-summary {
+  margin-top: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel-strong);
+  padding: 0.85rem;
+}
+
+.simulation-summary h3 {
+  margin-top: 0;
+}

@@ -1,0 +1,141 @@
+.report-article {
+  max-width: var(--reading-width);
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.article-header {
+  padding: clamp(1.2rem, 3vw, 2rem);
+  border-bottom: 1px solid var(--border);
+}
+
+.article-header h1 {
+  margin: 0.6rem 0 0.3rem;
+  font-family: var(--font-serif);
+  font-size: calc(2rem * var(--reader-scale));
+  line-height: 1.25;
+}
+
+.article-header p,
+.article-header small {
+  color: var(--muted);
+}
+
+.article-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.article-body {
+  padding: clamp(1rem, 3vw, 2rem);
+  font-size: calc(1rem * var(--reader-scale));
+}
+
+.report-section {
+  scroll-margin-top: 150px;
+  margin: 1.5rem 0;
+}
+
+.report-section > .block-header h2 {
+  font-family: var(--font-serif);
+  font-size: calc(1.55rem * var(--reader-scale));
+}
+
+.report-paragraph {
+  margin: 0.85rem 0;
+}
+
+.content-block {
+  scroll-margin-top: 150px;
+  border: 1px solid var(--border);
+  border-left-width: 5px;
+  border-radius: var(--radius);
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #fff;
+}
+
+.content-block--theorem,
+.content-block--proposition,
+.content-block--lemma,
+.content-block--corollary {
+  border-left-color: var(--accent);
+}
+
+.content-block--definition,
+.content-block--assumption,
+.content-block--notation {
+  border-left-color: #315f86;
+}
+
+.content-block--proof {
+  border-left-color: #6d5a43;
+  background: #fffaf0;
+}
+
+.content-block--warning {
+  border-left-color: var(--danger);
+  background: #fff7f2;
+}
+
+.content-block--placeholder {
+  border-left-color: #6c4c86;
+  background: #fbf7fe;
+}
+
+.content-block--numerical-check,
+.content-block--note {
+  border-left-color: var(--warn);
+}
+
+.block-header {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 0.75rem;
+}
+
+.block-header h2,
+.block-header h3,
+.block-header h4 {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.block-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.proof-end {
+  border-top: 1px dashed var(--border);
+  color: var(--muted);
+  font-style: italic;
+  margin: 1rem 0 0;
+  padding-top: 0.75rem;
+}
+
+.link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  list-style: none;
+  padding: 0;
+}
+
+.link-list a {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-strong);
+  padding: 0.55rem 0.75rem;
+  text-decoration: none;
+}

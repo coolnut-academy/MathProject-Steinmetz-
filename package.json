@@ -1,0 +1,16 @@
+{
+  "name": "steinmetz-report",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Static single-page mathematical report workspace for Steinmetz solid content.",
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "validate": "node scripts/validate-content.mjs",
+    "test": "node scripts/run-tests.mjs",
+    "build": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

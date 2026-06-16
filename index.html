@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Steinmetz Solid Mathematical Report</title>
+    <meta
+      name="description"
+      content="Single-page mathematical report workspace for Steinmetz solids with MathJax rendering and source-aware copying."
+    />
+    <link rel="stylesheet" href="./src/styles/index.css" />
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]],
+          packages: { "[+]": ["ams", "noerrors", "noundefined"] },
+          tags: "none"
+        },
+        options: {
+          skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+        },
+        startup: {
+          typeset: false
+        }
+      };
+    </script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div id="app" class="app-shell">
+      <header class="site-header">
+        <div class="brand">
+          <span class="brand__kicker">Mathematical Report Workspace</span>
+          <strong>Steinmetz Solid</strong>
+        </div>
+        <div class="header-actions" aria-label="Reading tools">
+          <button class="icon-button" type="button" data-font-decrease aria-label="Decrease text size">A-</button>
+          <button class="icon-button" type="button" data-font-increase aria-label="Increase text size">A+</button>
+          <button class="icon-button" type="button" data-print aria-label="Print current view">Print</button>
+        </div>
+      </header>
+      <nav class="main-nav" aria-label="Main report tabs" id="main-nav"></nav>
+      <div class="workspace">
+        <aside class="toc-panel" aria-label="Local table of contents">
+          <div class="toc-panel__header">
+            <strong>สารบัญย่อย</strong>
+            <button class="text-button" type="button" data-toggle-toc>Close</button>
+          </div>
+          <nav id="local-toc"></nav>
+        </aside>
+        <main id="main-content" class="content-pane" tabindex="-1"></main>
+        <aside class="utility-rail" aria-label="Utilities">
+          <section class="utility-card">
+            <h2>Word transfer</h2>
+            <ol>
+              <li>Copy prose from the report.</li>
+              <li>In Word, press <kbd>Alt</kbd> + <kbd>=</kbd> where an equation belongs.</li>
+              <li>Paste or type the copied LaTeX source.</li>
+              <li>Review the native Word equation manually.</li>
+            </ol>
+          </section>
+          <section class="utility-card" aria-live="polite">
+            <h2>Copy status</h2>
+            <p id="copy-status">No copy action yet.</p>
+          </section>
+        </aside>
+      </div>
+      <footer class="site-footer">
+        <span>Prototype status: structured application shell, not the complete report.</span>
+      </footer>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

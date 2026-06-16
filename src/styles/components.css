@@ -1,0 +1,75 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+  text-transform: uppercase;
+}
+
+.status-verified-proof,
+.status-verified-source {
+  color: #1e6b44;
+  background: #eaf6ed;
+}
+
+.status-needs-review,
+.status-needs-citation {
+  color: #8a521d;
+  background: #fff4df;
+}
+
+.status-placeholder {
+  color: #6c4c86;
+  background: #f4edf8;
+}
+
+.status-draft {
+  color: #315f86;
+  background: #eaf2fb;
+}
+
+.status-legend dl {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.status-legend dl > div {
+  display: grid;
+  grid-template-columns: minmax(150px, auto) 1fr;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.local-toc {
+  margin: 1rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.local-toc li {
+  margin: 0.4rem 0;
+}
+
+.utility-card + .utility-card {
+  margin-top: 1rem;
+}
+
+.utility-card h2 {
+  font-size: 1rem;
+  margin-top: 0;
+}
+
+.fallback-dialog {
+  max-width: min(760px, 94vw);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.fallback-dialog textarea {
+  width: 100%;
+  font-family: var(--font-mono);
+}

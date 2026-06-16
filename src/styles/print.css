@@ -1,0 +1,40 @@
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .site-header,
+  .main-nav,
+  .toc-panel,
+  .utility-rail,
+  .site-footer,
+  .article-controls,
+  .equation-card__actions,
+  .block-meta button {
+    display: none !important;
+  }
+
+  .workspace {
+    display: block;
+    padding: 0;
+  }
+
+  .report-article {
+    max-width: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .content-block,
+  .equation-card {
+    break-inside: avoid;
+  }
+
+  .equation-card__source {
+    display: block !important;
+    color: black;
+    background: white;
+    border-top: 1px solid #999;
+  }
+}

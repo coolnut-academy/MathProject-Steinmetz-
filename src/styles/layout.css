@@ -1,0 +1,124 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem clamp(1rem, 4vw, 2.5rem);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 253, 248, 0.94);
+  backdrop-filter: blur(12px);
+}
+
+.brand {
+  display: grid;
+  line-height: 1.2;
+}
+
+.brand strong {
+  font-size: 1.1rem;
+}
+
+.brand__kicker {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.main-nav {
+  position: sticky;
+  top: 65px;
+  z-index: 15;
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding: 0.65rem clamp(1rem, 4vw, 2.5rem);
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-strong);
+}
+
+.main-nav__link {
+  min-width: max-content;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--ink);
+  padding: 0.45rem 0.7rem;
+  text-decoration: none;
+}
+
+.main-nav__link span,
+.main-nav__link small {
+  display: block;
+  line-height: 1.2;
+}
+
+.main-nav__link small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.main-nav__link[data-active="true"] {
+  border-color: var(--accent);
+  background: var(--panel);
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(220px, 270px) minmax(0, 1fr) minmax(220px, 290px);
+  gap: 1rem;
+  width: min(1600px, 100%);
+  margin: 0 auto;
+  padding: 1rem clamp(1rem, 3vw, 2rem) 2rem;
+}
+
+.toc-panel,
+.utility-rail {
+  position: sticky;
+  top: 130px;
+  align-self: start;
+  max-height: calc(100vh - 150px);
+  overflow: auto;
+}
+
+.toc-panel,
+.utility-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.toc-panel__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.content-pane {
+  min-width: 0;
+}
+
+.site-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  padding: 1rem clamp(1rem, 4vw, 2.5rem);
+}

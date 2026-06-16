@@ -1,0 +1,20 @@
+:root {
+  color-scheme: light;
+  --reader-scale: 1;
+  --font-sans: "Noto Sans Thai", "Segoe UI", system-ui, sans-serif;
+  --font-serif: "Noto Serif Thai", "Georgia", serif;
+  --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  --bg: #f6f3ed;
+  --panel: #fffdf8;
+  --panel-strong: #f0ece2;
+  --ink: #25313f;
+  --muted: #65717f;
+  --border: #d7cfc1;
+  --accent: #2f6f67;
+  --accent-strong: #244f4b;
+  --warn: #b45d36;
+  --danger: #8a241f;
+  --shadow: 0 10px 30px rgba(36, 49, 63, 0.1);
+  --radius: 8px;
+  --reading-width: 940px;
+}
